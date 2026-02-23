@@ -34,7 +34,9 @@ class _CounterWidgetState extends State<CounterWidget> {
 
   void _decrementCounter() {
     setState(() {
-      _counter--;
+      if (_counter > 0) {
+        _counter--;
+      }
     });
   }   
 
@@ -43,6 +45,17 @@ class _CounterWidgetState extends State<CounterWidget> {
       _counter = 0;
     });
   }
+
+Color _getCounterColor() {
+    if (_counter > 50) {
+      return Colors.green;
+    } else if (_counter > 1 && _counter <= 50) {
+      return Colors.orange;
+    } else {
+      return Colors.red;
+    }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +68,7 @@ class _CounterWidgetState extends State<CounterWidget> {
         children: [
           Center(
             child: Container(
-              color: Colors.blue,
+              color: _getCounterColor(),
               child: Text(
                 '$_counter',
                 style: const TextStyle(fontSize: 50.0),
@@ -83,8 +96,8 @@ class _CounterWidgetState extends State<CounterWidget> {
               ),
               const SizedBox(width: 20),
               ElevatedButton(
-            onPressed: _incrementCounter,
-            child: const Text('Ignite'),
+                onPressed: _incrementCounter,
+                child: const Text('Ignite'),
           ),
               const SizedBox(width: 20),
               ElevatedButton(
