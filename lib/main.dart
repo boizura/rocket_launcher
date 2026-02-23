@@ -25,10 +25,15 @@ class CounterWidget extends StatefulWidget {
 class _CounterWidgetState extends State<CounterWidget> {
   // set counter value
   int _counter = 0;
+  bool _isLaunched = false;
+  static const int _launchThreshold = 100;
 
   void _incrementCounter() {
     setState(() {
       _counter++;
+      if (_counter >= _launchThreshold) {
+        _isLaunched = true;
+      }
     });
   }
 
@@ -36,6 +41,9 @@ class _CounterWidgetState extends State<CounterWidget> {
     setState(() {
       if (_counter > 0) {
         _counter--;
+        if (_counter == 0) {
+          _isLaunched = false;
+        }
       }
     });
   }   
@@ -70,7 +78,10 @@ Color _getCounterColor() {
             child: Container(
               color: _getCounterColor(),
               child: Text(
-                '$_counter',
+                _counter == 100
+                    ? "LIFTOFF!"
+                    :
+                _isLaunched ? "Launched! $_counter" : " $_counter",
                 style: const TextStyle(fontSize: 50.0),
               ),
             ),
